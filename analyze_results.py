@@ -15,6 +15,14 @@ def find_significant(df, col_name, alpha=0.05):
     return significant_alleles
 
 
+def find_significant2(df, col_name, alpha=0.05, drop=True):
+    print(col_name)
+    if drop:
+        df = df.drop(external_effects)
+    bool_significant_alleles = df[col_name] <= alpha
+    return bool_significant_alleles
+
+
 def all_ashkenazim_comparison(file_name, col_name1, col_name2):
     df = pd.read_csv(file_name, index_col=0)
     all_significant_alleles = find_significant(df, col_name1, alpha=0.05)
