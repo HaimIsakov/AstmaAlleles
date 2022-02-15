@@ -37,7 +37,6 @@ def coefs_external_effects(coefs_file, pvalues_file, alpha=0.05):
     return coefs_df
 
 
-
 # if __name__ == "__main__":
 #     coefs_file = os.path.join("..", "AstmaResults31.01.21", "astma_alleles", "blacken_data",
 #                               "homozygots_astma_alleles_coefs.csv")
