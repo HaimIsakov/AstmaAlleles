@@ -1,6 +1,7 @@
 import os
 from functools import reduce
 
+import numpy as np
 import pandas as pd
 import seaborn as sns
 from matplotlib import pyplot as plt
@@ -25,8 +26,18 @@ def create_alleles_coefs_df_all_models(tuple_coefs_pvalues):
 
 def plot_cluster_map(df):
     print(df.shape)
+    np_mat = df.values
+    for i in range(np_mat.shape[0]):
+        for j in range(np_mat.shape[1]):
+            if np_mat[i, j] < 0:
+                np_mat[i, j] = np_mat[i, j] - 2
+            if np_mat[i, j] > 0:
+                np_mat[i, j] = np_mat[i, j] + 2
+    df = pd.DataFrame(np_mat,
+                      index=df.index,
+                      columns=df.columns)
     cg = sns.clustermap(df, cmap=sns.color_palette("vlag", as_cmap=True), linewidths=0.1, linecolor='gray',
-                        xticklabels=df.columns, yticklabels=df.index, mask=(df==0))
+                        xticklabels=df.columns, yticklabels=df.index, mask=(df==0), vmin=-3, vmax=3)
     cg.ax_heatmap.set_yticklabels(cg.ax_heatmap.get_ymajorticklabels(), fontsize=6)
     plt.tight_layout()
     plt.savefig("clustermap_alleles_models.pdf")
