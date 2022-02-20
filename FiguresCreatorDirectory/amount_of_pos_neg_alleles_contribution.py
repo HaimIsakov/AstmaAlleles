@@ -16,10 +16,11 @@ def create_amount_of_pos_neg_alleles_table(files_list):
         for coef_col in cur_df_coefs_cols:
             print(coef_col)
             counts_grouped_df = cur_df.groupby(grouper, axis=0)[coef_col]
+            # TODO: Change it to real mean, since now we do not divide by the real number of occurences
             locus_pos_neg_count_table = counts_grouped_df.agg(pos_count=lambda s: s.gt(0).sum(),
-                                                              neg_count=lambda s: s.lt(0).sum()).astype(int)
+                                                              neg_count=lambda s: s.lt(0).sum()).astype(float)
             print(locus_pos_neg_count_table)
-
+            return locus_pos_neg_count_table
 
 if __name__ == "__main__":
     # df = pd.DataFrame(np.random.rand(6, 4),
@@ -48,10 +49,58 @@ if __name__ == "__main__":
 
     # https://stackoverflow.com/questions/25386870/pandas-plotting-with-multi-index
 
-    files_list = [os.path.join("..", "AstmaResults31.01.21", "astma_alleles", "significant",
-                               "significant_heterzygots_astma_alleles.csv"),
-                  os.path.join("..", "AstmaResults31.01.21", "astma_allergic", "significant",
-                               "significant_heterzygots_allergic_astma.csv"),
-                  os.path.join("..", "AstmaResults31.01.21", "astma_normal_vs_overweight", "significant",
-                               "significant_heterzygots_normal_vs_overweight_astma_alleles.csv")]
-    create_amount_of_pos_neg_alleles_table(files_list)
+
+
+
+    # files_list = [os.path.join("..", "AstmaResults31.01.21", "astma_alleles", "significant",
+    #                            "significant_heterzygots_astma_alleles.csv"),
+    #               os.path.join("..", "AstmaResults31.01.21", "astma_allergic", "significant",
+    #                            "significant_heterzygots_allergic_astma.csv"),
+    #               os.path.join("..", "AstmaResults31.01.21", "astma_normal_vs_overweight", "significant",
+    #                            "significant_heterzygots_normal_vs_overweight_astma_alleles.csv")]
+    # df = create_amount_of_pos_neg_alleles_table(files_list)
+    #
+    columns = ['All_pos',	'Ashken_pos', "not_include",	'All_neg',	'Ashken_neg']
+    df = pd.DataFrame([[4,4,0,4,1],
+                       [8,8,0,6,1],
+                       [3,2,0,0,0],
+                       [1,0,0,1,1],
+                       [12,9,0,2,2]],
+
+                      index=['A', 'B', 'C', 'DQ', 'DR'],
+                      columns=pd.Index(columns,
+                                       name='Genus'))
+
+    df.plot(kind='bar',figsize=(10,4))
+
+    ax = plt.gca()
+    pos = []
+    for bar in ax.patches:
+        pos.append(bar.get_x()+bar.get_width()/2.)
+
+
+    ax.set_xticks(pos,minor=True)
+    lab = []
+    for i in range(len(pos)):
+        l = df.columns.values[i//len(df.index.values)]
+        lab.append(l)
+
+    ax.set_xticklabels(lab,minor=True)
+    ax.tick_params(axis='x', which='major', pad=70, size=0)
+    plt.setp(ax.get_xticklabels(), rotation=0)
+    plt.setp(ax.xaxis.get_minorticklabels(), rotation=90)
+    label_to_remove='not_include'
+    h,l=ax.get_legend_handles_labels()
+
+    idx_keep=[k[0] for k in enumerate(l) if l[k[0]] != label_to_remove]
+
+    handles=[]
+    labels=[]
+
+    for i in idx_keep:
+        handles.append(h[i])
+        labels.append(l[i])
+    print(handles, labels)
+    ax.legend(handles, labels)
+    plt.tight_layout()
+    plt.show()
