@@ -11,22 +11,30 @@ from FiguresCreatorDirectory.analyze_results_with_zero_unsignificant_coefs impor
 
 def create_alleles_coefs_df_all_models(tuple_coefs_pvalues):
     dataframes_list = []
-    for coefs_file, pvalues_file, model_name in tuple_coefs_pvalues:
-        coef_df = zero_unsignificant_coefs(coefs_file, pvalues_file, alpha=0.05)
-        coef_df.rename(columns=lambda x: x.replace('_coefs', ''), inplace=True)
-        coef_df.rename(columns=lambda x: model_name + "_" + x, inplace=True)
-
-        dataframes_list.append(coef_df)
-    df_merged = reduce(lambda left, right: pd.merge(left, right, left_index=True, right_index=True, how='inner'),
-                       dataframes_list)
-    df_merged = df_merged.loc[~(df_merged == 0).all(axis=1)]
-    df_merged.to_csv("df_all_allleles_all_models.csv")
+    # the purpose of the bin is to cluster only for specific tasks
+    sum = 0
+    for coefs_file, pvalues_file, model_name, bin in tuple_coefs_pvalues:
+        sum += bin
+        if bin is not 0:
+            coef_df = zero_unsignificant_coefs(coefs_file, pvalues_file, alpha=0.05)
+            coef_df.rename(columns=lambda x: x.replace('_coefs', ''), inplace=True)
+            coef_df.rename(columns=lambda x: model_name + "_" + x, inplace=True)
+            dataframes_list.append(coef_df)
+    if sum is not 1:
+        df_merged = reduce(lambda left, right: pd.merge(left, right, left_index=True, right_index=True, how='inner'),
+                           dataframes_list)
+        df_merged = df_merged.loc[~(df_merged == 0).all(axis=1)]
+        df_merged.to_csv("df_all_allleles_all_models.csv")
+    else:
+        df_merged = coef_df
+        df_merged = df_merged.loc[~(df_merged == 0).all(axis=1)]
     return df_merged
 
 
-def plot_cluster_map(df):
+def plot_cluster_map(df, save_file_name="clustermap_alleles_models"):
     print(df.shape)
     np_mat = df.values
+    # just to make the colors look more clear
     for i in range(np_mat.shape[0]):
         for j in range(np_mat.shape[1]):
             if np_mat[i, j] < 0:
@@ -40,7 +48,7 @@ def plot_cluster_map(df):
                         xticklabels=df.columns, yticklabels=df.index, mask=(df==0), vmin=-3, vmax=3)
     cg.ax_heatmap.set_yticklabels(cg.ax_heatmap.get_ymajorticklabels(), fontsize=6)
     plt.tight_layout()
-    plt.savefig("clustermap_alleles_models.pdf")
+    plt.savefig(f"{save_file_name}.pdf")
     plt.show()
 
 
@@ -77,8 +85,9 @@ if __name__ == "__main__":
     coefs_files = [coefs_file1, coefs_file2, coefs_file3, coefs_file4]
     pvalues_files = [pvalues_file1, pvalues_file2, pvalues_file3, pvalues_file4]
     model_names = ["alleles", "allergic", "severity", "bmi"]
-
-    tuple_coefs_pvalues = [(coef_file, pvalues_file, model_name) for coef_file, pvalues_file, model_name in
-                           zip(coefs_files, pvalues_files, model_names)]
+    one_hot = [0, 0, 0, 1]
+    tuple_coefs_pvalues = [(coef_file, pvalues_file, model_name, bin) for coef_file, pvalues_file, model_name, bin in
+                           zip(coefs_files, pvalues_files, model_names, one_hot)]
     df_merged = create_alleles_coefs_df_all_models(tuple_coefs_pvalues)
-    plot_cluster_map(df_merged)
+    save_file_name = "cluster_map_bmi"
+    plot_cluster_map(df_merged, save_file_name=save_file_name)

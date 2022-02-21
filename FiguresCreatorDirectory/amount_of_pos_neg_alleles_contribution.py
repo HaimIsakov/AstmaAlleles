@@ -1,106 +1,102 @@
 import os.path
+from functools import reduce
 
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-
-def create_amount_of_pos_neg_alleles_table(files_list):
-    for file in files_list:
-        print(file)
-        cur_df = pd.read_csv(file, index_col=0)
-        cur_df.drop(["count"], inplace=True, axis=0)
-        cur_df_coefs_cols = [col for col in list(cur_df.columns) if col.split("_")[-1] == "coefs"]
-        prefixes = ["A", "B", "C", "DRB1", "DQB1"] # For each locus
-        grouper = [next(p for p in prefixes if p == c.split("*")[0]) for c in cur_df.index]
-        for coef_col in cur_df_coefs_cols:
-            print(coef_col)
-            counts_grouped_df = cur_df.groupby(grouper, axis=0)[coef_col]
-            # TODO: Change it to real mean, since now we do not divide by the real number of occurences
-            locus_pos_neg_count_table = counts_grouped_df.agg(pos_count=lambda s: s.gt(0).sum(),
-                                                              neg_count=lambda s: s.lt(0).sum()).astype(float)
-            print(locus_pos_neg_count_table)
-            return locus_pos_neg_count_table
-
-if __name__ == "__main__":
-    # df = pd.DataFrame(np.random.rand(6, 4),
-    #                   index=['one', 'two', 'three', 'four', 'five', 'six'],
-    #                   columns=pd.Index(['A', 'B', 'C', 'D'],
-    #                                    name='Genus')).round(2)
-    #
-    # df.plot(kind='bar', figsize=(10, 4))
-    #
-    # ax = plt.gca()
-    # pos = []
-    # for bar in ax.patches:
-    #     pos.append(bar.get_x() + bar.get_width() / 2.)
-    #
-    # ax.set_xticks(pos, minor=True)
-    # lab = []
-    # for i in range(len(pos)):
-    #     l = df.columns.values[i // len(df.index.values)]
-    #     lab.append(l)
-    #
-    # ax.set_xticklabels(lab, minor=True)
-    # ax.tick_params(axis='x', which='major', pad=15, size=0)
-    # plt.setp(ax.get_xticklabels(), rotation=0)
-    #
-    # plt.show()
-
-    # https://stackoverflow.com/questions/25386870/pandas-plotting-with-multi-index
+from FiguresCreatorDirectory.analyze_results_with_zero_unsignificant_coefs import coefs_external_effects, \
+    zero_unsignificant_coefs
 
 
+def create_amount_of_pos_neg_alleles_table(coefs_file, pvalues_file):
+    coefs_df = zero_unsignificant_coefs(coefs_file, pvalues_file, alpha=0.05)
+    cur_df_coefs_cols = [col for col in list(coefs_df.columns) if col.split("_")[-1] == "coefs"]
+    prefixes = ["A", "B", "C", "DRB1", "DQB1"]  # For each locus
+    grouper = [next(p for p in prefixes if p == c.split("*")[0]) for c in coefs_df.index]
+    dataframes_list = []
+    for coef_col in cur_df_coefs_cols:
+        print(coef_col)
+        new_coef_col = coef_col.replace("_coefs", "")
+        counts_grouped_df = coefs_df.groupby(grouper, axis=0)[coef_col]  # group the coefs_df according to each locus
+        locus_pos_neg_count_table = counts_grouped_df.agg(pos_count=lambda s: s.gt(0).mean(),
+                                                          neg_count=lambda s: s.lt(0).mean()).astype(float)
+        locus_pos_neg_count_table = locus_pos_neg_count_table.rename(columns={"pos_count": "pos_" + new_coef_col,
+                                                                              "neg_count": "neg_" + new_coef_col})
+        dataframes_list.append(locus_pos_neg_count_table)
+        print(locus_pos_neg_count_table)
+    # merge all dataframes
+    df_merged = reduce(lambda left, right: pd.merge(left, right, left_index=True, right_index=True, how='inner'),
+                       dataframes_list)
+    # sort the columns order
+    df_merged = df_merged.reindex(sorted(df_merged.columns), axis=1)
+    return df_merged
 
+def bar_plot(df):
+    df["o"] = [0] * df.shape[0]
+    df = df.reindex(sorted(df.columns), axis=1)
 
-    # files_list = [os.path.join("..", "AstmaResults31.01.21", "astma_alleles", "significant",
-    #                            "significant_heterzygots_astma_alleles.csv"),
-    #               os.path.join("..", "AstmaResults31.01.21", "astma_allergic", "significant",
-    #                            "significant_heterzygots_allergic_astma.csv"),
-    #               os.path.join("..", "AstmaResults31.01.21", "astma_normal_vs_overweight", "significant",
-    #                            "significant_heterzygots_normal_vs_overweight_astma_alleles.csv")]
-    # df = create_amount_of_pos_neg_alleles_table(files_list)
-    #
-    columns = ['All_pos',	'Ashken_pos', "not_include",	'All_neg',	'Ashken_neg']
-    df = pd.DataFrame([[4,4,0,4,1],
-                       [8,8,0,6,1],
-                       [3,2,0,0,0],
-                       [1,0,0,1,1],
-                       [12,9,0,2,2]],
-
-                      index=['A', 'B', 'C', 'DQ', 'DR'],
-                      columns=pd.Index(columns,
-                                       name='Genus'))
-
-    df.plot(kind='bar',figsize=(10,4))
-
+    df.plot(kind='bar', figsize=(10, 4), legend=None)
     ax = plt.gca()
     pos = []
     for bar in ax.patches:
         pos.append(bar.get_x()+bar.get_width()/2.)
 
-
-    ax.set_xticks(pos,minor=True)
+    ax.set_xticks(pos, minor=True)
     lab = []
     for i in range(len(pos)):
         l = df.columns.values[i//len(df.index.values)]
         lab.append(l)
 
-    ax.set_xticklabels(lab,minor=True)
-    ax.tick_params(axis='x', which='major', pad=70, size=0)
+    ax.set_xticklabels(lab, minor=True, size=7)
+    ax.tick_params(axis='x', which='major', pad=95, size=0)
     plt.setp(ax.get_xticklabels(), rotation=0)
     plt.setp(ax.xaxis.get_minorticklabels(), rotation=90)
-    label_to_remove='not_include'
-    h,l=ax.get_legend_handles_labels()
 
-    idx_keep=[k[0] for k in enumerate(l) if l[k[0]] != label_to_remove]
-
-    handles=[]
-    labels=[]
-
+    # remove label from legend
+    label_to_remove = 'o'
+    h, l = ax.get_legend_handles_labels()
+    idx_keep = [k[0] for k in enumerate(l) if l[k[0]] != label_to_remove]
+    handles = []
+    labels = []
     for i in idx_keep:
         handles.append(h[i])
         labels.append(l[i])
-    print(handles, labels)
-    ax.legend(handles, labels)
+    ax.legend(handles, labels, loc='upper left')
+
+
+if __name__ == "__main__":
+    # https://stackoverflow.com/questions/25386870/pandas-plotting-with-multi-index
+
+
+    # coefs_file = os.path.join("..","AstmaResults31.01.21", "astma_alleles", "blacken_data",
+    #                           "heterzygots_astma_alleles_coefs.csv")
+    # pvalues_file = os.path.join("..", "AstmaResults31.01.21", "astma_alleles", "blacken_data",
+    #                             "heterzygots_astma_alleles_pvalues.csv")
+    # save_file_name = "mean_of_associations_asthma_alleles"
+
+    # coefs_file = os.path.join("..", "AstmaResults31.01.21", "astma_allergic", "blacken_data",
+    #                           "heterzygots_allergic_astma_coefs.csv")
+    # pvalues_file = os.path.join( "..", "AstmaResults31.01.21", "astma_allergic", "blacken_data",
+    #                             "heterzygots_allergic_astma_pvalues.csv")
+    # save_file_name = "mean_of_associations_allergic_asthma"
+
+
+    # coefs_file = os.path.join("..", "AstmaResults31.01.21", "astma_severity", "blacken_data",
+    #                           "heterzygots_astma_severity_alleles_mild_vs_severe_coefs.csv")
+    # pvalues_file = os.path.join("..", "AstmaResults31.01.21", "astma_severity", "blacken_data",
+    #                             "heterzygots_astma_severity_alleles_mild_vs_severe_pvalues.csv")
+    # save_file_name = "mean_of_associations_asthma_severity"
+
+
+    coefs_file = os.path.join("..", "AstmaResults31.01.21", "astma_normal_vs_overweight", "blacken_data",
+                              "heterzygots_normal_vs_overweight_astma_alleles_coefs.csv")
+    pvalues_file = os.path.join("..", "AstmaResults31.01.21", "astma_normal_vs_overweight", "blacken_data",
+                                "heterzygots_normal_vs_overweight_astma_alleles_pvalues.csv")
+    save_file_name = "mean_of_associations_asthma_bmi"
+
+    df = create_amount_of_pos_neg_alleles_table(coefs_file, pvalues_file)
+    bar_plot(df)
     plt.tight_layout()
+    plt.savefig(f"{save_file_name}.pdf")
     plt.show()
