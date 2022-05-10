@@ -36,7 +36,7 @@ def bar_plot(df):
     df["o"] = [0] * df.shape[0]
     df = df.reindex(sorted(df.columns), axis=1)
 
-    df.plot(kind='bar', figsize=(10, 4), legend=None)
+    df.plot(kind='bar', figsize=(10, 4), legend=None, edgecolor='black', width=0.5)
     ax = plt.gca()
     pos = []
     for bar in ax.patches:
