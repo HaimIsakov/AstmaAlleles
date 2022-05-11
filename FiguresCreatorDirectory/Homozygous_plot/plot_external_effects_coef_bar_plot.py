@@ -76,7 +76,7 @@ def get_external_effects_coef_df(coefs_file, pvalues_file, **kwargs):
     plt.setp(axs, ylim=[-0.5, 0.5])
     fig.suptitle(kwargs["fig_title"], size=18)
     fig.tight_layout(pad=1)
-    plt.savefig(kwargs["save_file_name"] + ".jpeg", bbox_inches="tight", pad_inches=0.5)
+    # plt.savefig(kwargs["save_file_name"] + ".jpeg", bbox_inches="tight", pad_inches=0.5)
     plt.show()
 
 
@@ -89,53 +89,53 @@ if __name__ == "__main__":
               "save_file_name": "other_homozygous_astma_alleles"}
     get_external_effects_coef_df(coefs_file, pvalues_file, **kwargs)
     #
-    coefs_file = os.path.join("..", "..", "AstmaResults31.01.21", "astma_allergic", "blacken_data",
-                              "homozygots_allergic_astma_coefs.csv")
-    pvalues_file = os.path.join("..", "..", "AstmaResults31.01.21", "astma_allergic", "blacken_data",
-                                "homozygots_allergic_astma_pvalues.csv")
-    kwargs = {"colors": ['darkgreen', 'lime'], "rot" : 0, "fig_title": "Allergic Asthma - Homozygous",
-              "prefixes": ["1", "2"],
-              "save_file_name": "other_homozygous_allergic_asthma"}
-    get_external_effects_coef_df(coefs_file, pvalues_file, **kwargs)
+    # coefs_file = os.path.join("..", "..", "AstmaResults31.01.21", "astma_allergic", "blacken_data",
+    #                           "homozygots_allergic_astma_coefs.csv")
+    # pvalues_file = os.path.join("..", "..", "AstmaResults31.01.21", "astma_allergic", "blacken_data",
+    #                             "homozygots_allergic_astma_pvalues.csv")
+    # kwargs = {"colors": ['darkgreen', 'lime'], "rot" : 0, "fig_title": "Allergic Asthma - Homozygous",
+    #           "prefixes": ["1", "2"],
+    #           "save_file_name": "other_homozygous_allergic_asthma"}
+    # get_external_effects_coef_df(coefs_file, pvalues_file, **kwargs)
+    # #
+    # coefs_file = os.path.join("..", "..", "AstmaResults31.01.21", "astma_severity", "blacken_data",
+    #                           "homozygots_astma_severity_alleles_mild_vs_severe_coefs.csv")
+    # pvalues_file = os.path.join("..", "..", "AstmaResults31.01.21", "astma_severity", "blacken_data",
+    #                             "homozygots_astma_severity_alleles_mild_vs_severe_pvalues.csv")
+    # kwargs = {"colors": ['blue', 'cyan'], "rot" : 0, "fig_title": "Asthma Severity - Homozygous",
+    #           "prefixes": ["1", "2"],
+    #           "save_file_name": "other_homozygous_asthma_severity"}
+    # get_external_effects_coef_df(coefs_file, pvalues_file, **kwargs)
     #
-    coefs_file = os.path.join("..", "..", "AstmaResults31.01.21", "astma_severity", "blacken_data",
-                              "homozygots_astma_severity_alleles_mild_vs_severe_coefs.csv")
-    pvalues_file = os.path.join("..", "..", "AstmaResults31.01.21", "astma_severity", "blacken_data",
-                                "homozygots_astma_severity_alleles_mild_vs_severe_pvalues.csv")
-    kwargs = {"colors": ['blue', 'cyan'], "rot" : 0, "fig_title": "Asthma Severity - Homozygous",
-              "prefixes": ["1", "2"],
-              "save_file_name": "other_homozygous_asthma_severity"}
-    get_external_effects_coef_df(coefs_file, pvalues_file, **kwargs)
-
-
-    coefs_file = os.path.join("..", "..","AstmaResults31.01.21", "astma_alleles", "blacken_data",
-                              "heterzygots_astma_alleles_coefs.csv")
-    pvalues_file = os.path.join("..","..", "AstmaResults31.01.21", "astma_alleles", "blacken_data",
-                                "heterzygots_astma_alleles_pvalues.csv")
-    kwargs = {"colors": ['purple', 'red'], "rot" : 0, "fig_title": "Asthma&Alleles - Heterozygous",
-              "save_file_name": "other_heterzygots_astma_alleles"}
-    get_external_effects_coef_df(coefs_file, pvalues_file, **kwargs)
-
-    coefs_file = os.path.join("..", "..", "AstmaResults31.01.21", "astma_allergic", "blacken_data",
-                              "heterzygots_allergic_astma_coefs.csv")
-    pvalues_file = os.path.join("..", "..", "AstmaResults31.01.21", "astma_allergic", "blacken_data",
-                                "heterzygots_allergic_astma_pvalues.csv")
-    kwargs = {"colors": ['darkgreen', 'lime'],"rot" : 0,"fig_title": "Allergic Asthma - Heterozygous",
-              "save_file_name": "other_heterzygots_allergic_asthma"}
-    get_external_effects_coef_df(coefs_file, pvalues_file, **kwargs)
     #
-    coefs_file = os.path.join("..", "..", "AstmaResults31.01.21", "astma_severity", "blacken_data",
-                              "heterzygots_astma_severity_alleles_mild_vs_severe_coefs.csv")
-    pvalues_file = os.path.join("..", "..", "AstmaResults31.01.21", "astma_severity", "blacken_data",
-                                "heterzygots_astma_severity_alleles_mild_vs_severe_pvalues.csv")
-    kwargs = {"colors": ['blue', 'cyan'],"rot" : 0,"fig_title": "Asthma Severity- Heterozygous",
-              "save_file_name": "other_heterzygots_asthma_severity"}
-    get_external_effects_coef_df(coefs_file, pvalues_file, **kwargs)
-
-    coefs_file = os.path.join("..", "..", "AstmaResults31.01.21", "astma_normal_vs_overweight", "blacken_data",
-                              "heterzygots_normal_vs_overweight_astma_alleles_coefs.csv")
-    pvalues_file = os.path.join("..", "..", "AstmaResults31.01.21", "astma_normal_vs_overweight", "blacken_data",
-                                "heterzygots_normal_vs_overweight_astma_alleles_pvalues.csv")
-    kwargs = {"colors": ['darkorange', 'gold'],"rot" : 0, "fig_title": "Asthma BMI- Heterozygous",
-              "save_file_name": "other_heterzygots_astma_normal_vs_overweight"}
-    get_external_effects_coef_df(coefs_file, pvalues_file, **kwargs)
+    # coefs_file = os.path.join("..", "..","AstmaResults31.01.21", "astma_alleles", "blacken_data",
+    #                           "heterzygots_astma_alleles_coefs.csv")
+    # pvalues_file = os.path.join("..","..", "AstmaResults31.01.21", "astma_alleles", "blacken_data",
+    #                             "heterzygots_astma_alleles_pvalues.csv")
+    # kwargs = {"colors": ['purple', 'red'], "rot" : 0, "fig_title": "Asthma&Alleles - Heterozygous",
+    #           "save_file_name": "other_heterzygots_astma_alleles"}
+    # get_external_effects_coef_df(coefs_file, pvalues_file, **kwargs)
+    #
+    # coefs_file = os.path.join("..", "..", "AstmaResults31.01.21", "astma_allergic", "blacken_data",
+    #                           "heterzygots_allergic_astma_coefs.csv")
+    # pvalues_file = os.path.join("..", "..", "AstmaResults31.01.21", "astma_allergic", "blacken_data",
+    #                             "heterzygots_allergic_astma_pvalues.csv")
+    # kwargs = {"colors": ['darkgreen', 'lime'],"rot" : 0,"fig_title": "Allergic Asthma - Heterozygous",
+    #           "save_file_name": "other_heterzygots_allergic_asthma"}
+    # get_external_effects_coef_df(coefs_file, pvalues_file, **kwargs)
+    # #
+    # coefs_file = os.path.join("..", "..", "AstmaResults31.01.21", "astma_severity", "blacken_data",
+    #                           "heterzygots_astma_severity_alleles_mild_vs_severe_coefs.csv")
+    # pvalues_file = os.path.join("..", "..", "AstmaResults31.01.21", "astma_severity", "blacken_data",
+    #                             "heterzygots_astma_severity_alleles_mild_vs_severe_pvalues.csv")
+    # kwargs = {"colors": ['blue', 'cyan'],"rot" : 0,"fig_title": "Asthma Severity- Heterozygous",
+    #           "save_file_name": "other_heterzygots_asthma_severity"}
+    # get_external_effects_coef_df(coefs_file, pvalues_file, **kwargs)
+    #
+    # coefs_file = os.path.join("..", "..", "AstmaResults31.01.21", "astma_normal_vs_overweight", "blacken_data",
+    #                           "heterzygots_normal_vs_overweight_astma_alleles_coefs.csv")
+    # pvalues_file = os.path.join("..", "..", "AstmaResults31.01.21", "astma_normal_vs_overweight", "blacken_data",
+    #                             "heterzygots_normal_vs_overweight_astma_alleles_pvalues.csv")
+    # kwargs = {"colors": ['darkorange', 'gold'],"rot" : 0, "fig_title": "Asthma BMI- Heterozygous",
+    #           "save_file_name": "other_heterzygots_astma_normal_vs_overweight"}
+    # get_external_effects_coef_df(coefs_file, pvalues_file, **kwargs)

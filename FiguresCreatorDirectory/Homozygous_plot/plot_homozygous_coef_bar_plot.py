@@ -29,7 +29,7 @@ def plot_external_effect(coefs_df, row, **kwargs):
     plt.title(row)
     ax.set_axisbelow(True)
     ax.yaxis.grid(color='gray', linestyle='dashed', alpha=0.7)
-    plt.savefig(row + "_" + kwargs["save_file_name"] + ".jpeg")
+    # plt.savefig(row + "_" + kwargs["save_file_name"] + ".jpeg")
     plt.show()
 
 
