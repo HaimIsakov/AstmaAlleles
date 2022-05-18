@@ -117,40 +117,50 @@ def union_interaction_files():
     homozygote_union(files_list, save_file_name)
 
 def union_seperate_obese_and_not_files():
-    files_list = [os.path.join("seperate_obese_and_normal", "allergic_asthma", f"all_soldiers_binary_asthma_allergic_normal_coefs_together.xlsx"),
-                  os.path.join("seperate_obese_and_normal", "allergic_asthma", f"all_soldiers_binary_asthma_allergic_normal_pvalues_together.xlsx"),
-                  os.path.join("seperate_obese_and_normal", "allergic_asthma", f"all_soldiers_binary_asthma_allergic_overweight_coefs_together.xlsx"),
-                  os.path.join("seperate_obese_and_normal", "allergic_asthma", f"all_soldiers_binary_asthma_allergic_overweight_pvalues_together.xlsx")]
-    save_file_name = "allergic_asthma_obese_and_not"
-    heterozygote_union(files_list, save_file_name)
-
-    files_list = [os.path.join("seperate_obese_and_normal", "asthma_severity", f"all_soldiers_binary_asthma_severity_normal_coefs_together.xlsx"),
-                  os.path.join("seperate_obese_and_normal", "asthma_severity", f"all_soldiers_binary_asthma_severity_normal_pvalues_together.xlsx"),
-                  os.path.join("seperate_obese_and_normal", "asthma_severity", f"all_soldiers_binary_asthma_severity_overweight_coefs_together.xlsx"),
-                  os.path.join("seperate_obese_and_normal", "asthma_severity", f"all_soldiers_binary_asthma_severity_overweight_pvalues_together.xlsx")]
-    save_file_name = "asthma_severity_obese_and_not"
-    heterozygote_union(files_list, save_file_name)
-
-    files_list = [os.path.join("seperate_obese_and_normal", "asthma", "alleles", f"all_soldiers_asthma_alleles_normal_coefs_together.xlsx"),
-                  os.path.join("seperate_obese_and_normal", "asthma", "alleles", f"all_soldiers_asthma_alleles_normal_pvalues_together.xlsx"),
-                  os.path.join("seperate_obese_and_normal", "asthma", "alleles", f"all_soldiers_asthma_alleles_overweight_coefs_together.xlsx"),
-                  os.path.join("seperate_obese_and_normal", "asthma", "alleles", f"all_soldiers_asthma_alleles_overweight_pvalues_together.xlsx"),
-                  os.path.join("seperate_obese_and_normal", "asthma", "alleles", f"ashkenazim_asthma_alleles_normal_coefs_together.xlsx"),
-                  os.path.join("seperate_obese_and_normal", "asthma", "alleles", f"ashkenazim_asthma_alleles_normal_pvalues_together.xlsx"),
-                  os.path.join("seperate_obese_and_normal", "asthma", "alleles", f"ashkenazim_asthma_alleles_overweight_coefs_together.xlsx"),
-                  os.path.join("seperate_obese_and_normal", "asthma", "alleles", f"ashkenazim_asthma_alleles_overweight_pvalues_together.xlsx")]
-    save_file_name = "asthma_alleles_obese_and_not"
-    heterozygote_union(files_list, save_file_name)
-
-    files_list = [os.path.join("seperate_obese_and_normal", "asthma", "haplotypes", f"all_soldiers_asthma_haplotypes_normal_coefs_seperate.xlsx"),
-                  os.path.join("seperate_obese_and_normal", "asthma", "haplotypes", f"all_soldiers_asthma_haplotypes_normal_pvalues_seperate.xlsx"),
-                  os.path.join("seperate_obese_and_normal", "asthma", "haplotypes", f"all_soldiers_asthma_haplotypes_overweight_coefs_seperate.xlsx"),
-                  os.path.join("seperate_obese_and_normal", "asthma", "haplotypes", f"all_soldiers_asthma_haplotypes_overweight_pvalues_seperate.xlsx"),
-                  os.path.join("seperate_obese_and_normal", "asthma", "haplotypes", f"ashkenazim_asthma_haplotypes_normal_coefs_seperate.xlsx"),
-                  os.path.join("seperate_obese_and_normal", "asthma", "haplotypes", f"ashkenazim_asthma_haplotypes_normal_pvalues_seperate.xlsx"),
-                  os.path.join("seperate_obese_and_normal", "asthma", "haplotypes", f"ashkenazim_asthma_haplotypes_overweight_coefs_seperate.xlsx"),
-                  os.path.join("seperate_obese_and_normal", "asthma", "haplotypes", f"ashkenazim_asthma_haplotypes_overweight_pvalues_seperate.xlsx")]
-    save_file_name = "asthma_haplotypes_obese_and_not"
+    # files_list = [os.path.join("seperate_obese_and_normal", "allergic_asthma", f"all_soldiers_binary_asthma_allergic_normal_coefs_together.xlsx"),
+    #               os.path.join("seperate_obese_and_normal", "allergic_asthma", f"all_soldiers_binary_asthma_allergic_normal_pvalues_together.xlsx"),
+    #               os.path.join("seperate_obese_and_normal", "allergic_asthma", f"all_soldiers_binary_asthma_allergic_overweight_coefs_together.xlsx"),
+    #               os.path.join("seperate_obese_and_normal", "allergic_asthma", f"all_soldiers_binary_asthma_allergic_overweight_pvalues_together.xlsx")]
+    # save_file_name = "allergic_asthma_obese_and_not"
+    # heterozygote_union(files_list, save_file_name)
+    #
+    # files_list = [os.path.join("seperate_obese_and_normal", "asthma_severity", f"all_soldiers_binary_asthma_severity_normal_coefs_together.xlsx"),
+    #               os.path.join("seperate_obese_and_normal", "asthma_severity", f"all_soldiers_binary_asthma_severity_normal_pvalues_together.xlsx"),
+    #               os.path.join("seperate_obese_and_normal", "asthma_severity", f"all_soldiers_binary_asthma_severity_overweight_coefs_together.xlsx"),
+    #               os.path.join("seperate_obese_and_normal", "asthma_severity", f"all_soldiers_binary_asthma_severity_overweight_pvalues_together.xlsx")]
+    # save_file_name = "asthma_severity_obese_and_not"
+    # heterozygote_union(files_list, save_file_name)
+    #
+    # files_list = [os.path.join("seperate_obese_and_normal", "asthma", "alleles", f"all_soldiers_asthma_alleles_normal_coefs_together.xlsx"),
+    #               os.path.join("seperate_obese_and_normal", "asthma", "alleles", f"all_soldiers_asthma_alleles_normal_pvalues_together.xlsx"),
+    #               os.path.join("seperate_obese_and_normal", "asthma", "alleles", f"all_soldiers_asthma_alleles_overweight_coefs_together.xlsx"),
+    #               os.path.join("seperate_obese_and_normal", "asthma", "alleles", f"all_soldiers_asthma_alleles_overweight_pvalues_together.xlsx"),
+    #               os.path.join("seperate_obese_and_normal", "asthma", "alleles", f"ashkenazim_asthma_alleles_normal_coefs_together.xlsx"),
+    #               os.path.join("seperate_obese_and_normal", "asthma", "alleles", f"ashkenazim_asthma_alleles_normal_pvalues_together.xlsx"),
+    #               os.path.join("seperate_obese_and_normal", "asthma", "alleles", f"ashkenazim_asthma_alleles_overweight_coefs_together.xlsx"),
+    #               os.path.join("seperate_obese_and_normal", "asthma", "alleles", f"ashkenazim_asthma_alleles_overweight_pvalues_together.xlsx")]
+    # save_file_name = "asthma_alleles_obese_and_not"
+    # heterozygote_union(files_list, save_file_name)
+    #
+    # files_list = [os.path.join("seperate_obese_and_normal", "asthma", "haplotypes", f"all_soldiers_asthma_haplotypes_normal_coefs_seperate.xlsx"),
+    #               os.path.join("seperate_obese_and_normal", "asthma", "haplotypes", f"all_soldiers_asthma_haplotypes_normal_pvalues_seperate.xlsx"),
+    #               os.path.join("seperate_obese_and_normal", "asthma", "haplotypes", f"all_soldiers_asthma_haplotypes_overweight_coefs_seperate.xlsx"),
+    #               os.path.join("seperate_obese_and_normal", "asthma", "haplotypes", f"all_soldiers_asthma_haplotypes_overweight_pvalues_seperate.xlsx"),
+    #               os.path.join("seperate_obese_and_normal", "asthma", "haplotypes", f"ashkenazim_asthma_haplotypes_normal_coefs_seperate.xlsx"),
+    #               os.path.join("seperate_obese_and_normal", "asthma", "haplotypes", f"ashkenazim_asthma_haplotypes_normal_pvalues_seperate.xlsx"),
+    #               os.path.join("seperate_obese_and_normal", "asthma", "haplotypes", f"ashkenazim_asthma_haplotypes_overweight_coefs_seperate.xlsx"),
+    #               os.path.join("seperate_obese_and_normal", "asthma", "haplotypes", f"ashkenazim_asthma_haplotypes_overweight_pvalues_seperate.xlsx")]
+    # save_file_name = "asthma_haplotypes_obese_and_not"
+    # homozygote_union(files_list, save_file_name)
+    files_list = [os.path.join("seperate_obese_and_normal", "asthma", "homozygots", f"all_soldiers_asthma_homozygots_normal_coefs_seperate.xlsx"),
+                  os.path.join("seperate_obese_and_normal", "asthma", "homozygots", f"all_soldiers_asthma_homozygots_normal_pvalues_seperate.xlsx"),
+                  os.path.join("seperate_obese_and_normal", "asthma", "homozygots", f"all_soldiers_asthma_homozygots_overweight_coefs_seperate.xlsx"),
+                  os.path.join("seperate_obese_and_normal", "asthma", "homozygots", f"all_soldiers_asthma_homozygots_overweight_pvalues_seperate.xlsx"),
+                  os.path.join("seperate_obese_and_normal", "asthma", "homozygots", f"ashkenazim_asthma_homozygots_normal_coefs_seperate.xlsx"),
+                  os.path.join("seperate_obese_and_normal", "asthma", "homozygots", f"ashkenazim_asthma_homozygots_normal_pvalues_seperate.xlsx"),
+                  os.path.join("seperate_obese_and_normal", "asthma", "homozygots", f"ashkenazim_asthma_homozygots_overweight_coefs_seperate.xlsx"),
+                  os.path.join("seperate_obese_and_normal", "asthma", "homozygots", f"ashkenazim_asthma_homozygots_overweight_pvalues_seperate.xlsx")]
+    save_file_name = "asthma_homozygots_obese_and_not"
     homozygote_union(files_list, save_file_name)
 
 

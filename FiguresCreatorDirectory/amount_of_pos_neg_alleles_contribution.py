@@ -98,5 +98,5 @@ if __name__ == "__main__":
     df = create_amount_of_pos_neg_alleles_table(coefs_file, pvalues_file)
     bar_plot(df)
     plt.tight_layout()
-    plt.savefig(f"{save_file_name}.pdf")
+    # plt.savefig(f"{save_file_name}.pdf")
     plt.show()
